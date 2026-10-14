@@ -1,12 +1,17 @@
-# Icon Pack Template for ZenOS
+# Zen icon pack template
 
 An empty GitHub template for [ZenOS](https://github.com/xZenLabs/zen-os), KOReader,
 and ZenPM icon packs. Add your own artwork; the builder, validation tests, and
 automatic release workflow are already set up.
 
-The packaging infrastructure comes from
-[xZenLabs/solariconpack-zen](https://github.com/xZenLabs/solariconpack-zen).
-This template contains no icon artwork or previews.
+## Icon overviews
+
+These cards are demo placeholders. Replace them with up to three
+**1264 × 1680 pixel** images per style. Mix common KOReader controls,
+`tab_` icons, library, settings, Wi-Fi, Bluetooth, and other available
+actions, with filenames below the artwork. The template contains no icon artwork.
+
+![My Icons: mixed demo layout placeholders with example filenames](.github/overview-my-icons.png)
 
 ## Create a pack
 
@@ -37,6 +42,7 @@ This template contains no icon artwork or previews.
    and repository builds agree. Root metadata supplies the shared version and
    author; each style supplies its own color setting.
 4. Replace `LICENSE-ICONS.txt` with your icon credits and required license terms,
+   replace the placeholder overview images with your own portrait previews,
    then update this README with your pack's name and installation links.
 5. Run the checks below and push to `main`. GitHub Actions publishes an installable
    ZIP containing one folder whose name matches the pack ID.
