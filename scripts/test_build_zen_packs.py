@@ -24,7 +24,15 @@ class BuildPacksTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)
             packs = list(builder.pack_sources(builder.ROOT, output))
-            self.assertTrue(packs, "Repository must contain at least one icon pack")
+            if not packs:
+                with patch("sys.argv", ["build-zen-packs.py", "--output", str(output)]), \
+                        patch("sys.stderr", new=StringIO()) as errors:
+                    with self.assertRaises(SystemExit) as error:
+                        builder.main()
+                self.assertEqual(error.exception.code, 1)
+                self.assertIn("No icon packs found", errors.getvalue())
+                self.assertFalse(list(output.iterdir()))
+                return
             with patch("sys.argv", ["build-zen-packs.py", "--output", str(output)]):
                 builder.main()
             self.assertEqual(len(list(output.glob("*.zip"))), len(packs))
@@ -49,6 +57,29 @@ class BuildPacksTest(unittest.TestCase):
                     with zipfile.ZipFile(destination) as archive:
                         self.assertEqual(json.loads(archive.read(prefix + "pack.json")),
                                          dict(metadata, version="2.3.4"))
+
+    def test_empty_scaffold_builds_after_artwork_is_added(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "dist"
+            pack = root / "My Icons"
+            metadata = {"schema_version": 1, "id": "zen-my-icons", "name": "My Icons for ZenOS",
+                        "version": "1.0.0", "author": "Your name", "color": True}
+            (root / "pack.json").write_text(json.dumps(metadata))
+            for name in ("Pack Icons", "KOReader Icons", "Supplementary Icons"):
+                directory = pack / name
+                directory.mkdir(parents=True)
+                (directory / ".gitkeep").touch()
+            (pack / "pack.json").write_text(json.dumps(metadata))
+            self.assertFalse(list(builder.pack_sources(root, output)))
+            (pack / "Pack Icons" / "library.svg").write_bytes(SVG)
+            self.assertEqual(len(list(builder.pack_sources(root, output))), 1)
+            with patch("sys.argv", ["build-zen-packs.py", str(root), "--output", str(output)]):
+                builder.main()
+            with zipfile.ZipFile(output / "zen-my-icons.zip") as archive:
+                self.assertEqual(archive.read("zen-my-icons/library.svg"), SVG)
+                self.assertEqual(json.loads(archive.read("zen-my-icons/pack.json")), metadata)
+                self.assertFalse(any(name.endswith(".gitkeep") for name in archive.namelist()))
 
     def test_color_metadata_survives_repository_and_direct_builds(self):
         with tempfile.TemporaryDirectory() as temporary:

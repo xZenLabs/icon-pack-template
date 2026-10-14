@@ -21,14 +21,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Select next release version
-        env:
-          PREVIOUS_SHA: ${{ github.event.before }}
-        run: |
-          version="$(python3 scripts/next-release-version.py)"
-          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
-          echo "RELEASE_TAG=v$version" >> "$GITHUB_ENV"
-
       - name: Install build dependencies
         run: |
           python3 -m venv .venv
@@ -38,10 +30,37 @@ jobs:
       - name: Run tests
         run: python3 -m unittest discover -s scripts -p 'test_*.py'
 
+      - name: Check for pack artwork
+        id: icons
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          import runpy
+
+          builder = runpy.run_path("scripts/build-zen-packs.py")
+          present = any(builder["pack_sources"](Path.cwd(), Path("dist").resolve()))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write(f"present={str(present).lower()}\n")
+          if not present:
+              print("No icon artwork yet. Tests passed; add icons to enable releases.")
+          PY
+
+      - name: Select next release version
+        if: steps.icons.outputs.present == 'true'
+        env:
+          PREVIOUS_SHA: ${{ github.event.before }}
+        run: |
+          version="$(python3 scripts/next-release-version.py)"
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=v$version" >> "$GITHUB_ENV"
+
       - name: Build and validate packs
+        if: steps.icons.outputs.present == 'true'
         run: python3 scripts/build-zen-packs.py --version "$RELEASE_VERSION"
 
       - name: Check release version
+        if: steps.icons.outputs.present == 'true'
         run: |
           for pack in dist/zen-*.zip; do
             unzip -p "$pack" '*/pack.json' |
@@ -49,6 +68,7 @@ jobs:
           done
 
       - name: Publish release ZIPs
+        if: steps.icons.outputs.present == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
