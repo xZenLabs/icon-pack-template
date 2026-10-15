@@ -26,14 +26,24 @@ actions, with filenames below the artwork. The template contains no icon artwork
    ```text
    My Icons/
      pack.json
-     Pack Icons/
-     KOReader Icons/
-     Supplementary Icons/
+     navbar/
+     controls/
+     launcher/
+     zenpm/
+     lookup/
+     menus/
+     reader/
+     device/
+     koreader/
    ```
 
    Use filenames from [ICON-LIST.md](ICON-LIST.md) to replace application icons.
    Include only the designs you want to replace; missing icons use the bundled
-   artwork. Keep filenames unique across the three folders.
+   artwork. Keep filenames unique across all categories. Stock KOReader icons and `book_open` belong in `koreader/`.
+   Page-browser TOC, vocabulary, and view modes belong in `reader/`.
+   Stock `appbar.*`, Aa, and bookmark icons stay in `koreader/`.
+   Quick settings belong in `controls/`, left/right page tabs in `navbar/`, and
+   verification shields in `zenpm/`.
 3. Rename `My Icons` and update root `pack.json` and the style's `pack.json`.
    Set `id`, `name`, `version`, `author`, and `color`. Set `color` to `true` for
    color artwork or `false` for monochrome.
@@ -52,7 +62,8 @@ letter or number. A flat style folder also works. To include multiple styles,
 add another style folder with its own manifest and artwork.
 
 No Lua plugin is needed. The builder preserves source SVGs, cleans PNG metadata,
-flattens the icon folders, and generates the existing ZenOS/KOReader/ZenPM aliases.
+flattens the icon categories, and supports legacy source conversion. Use current
+lookup filenames from the catalog; no `qa_group` or `qa_plugin` files are needed.
 It validates manifests, SVG documents, and archive limits. SVGs are validated but
 are not sanitized.
 
