@@ -67,7 +67,7 @@ class BuildPacksTest(unittest.TestCase):
                         "version": "1.0.0", "author": "Your name", "color": True}
             (root / "pack.json").write_text(json.dumps(metadata))
             for name in ("navbar", "controls", "launcher", "zenpm", "lookup",
-                         "menus", "reader", "device", "koreader"):
+                         "menus", "reader", "device", "settings", "koreader"):
                 directory = pack / name
                 directory.mkdir(parents=True)
                 (directory / ".gitkeep").touch()

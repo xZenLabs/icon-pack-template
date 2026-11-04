@@ -34,6 +34,7 @@ actions, with filenames below the artwork. The template contains no icon artwork
      menus/
      reader/
      device/
+     settings/
      koreader/
    ```
 
