@@ -100,6 +100,7 @@ skip_left.svg
 skip_right.svg
 star.filled.svg
 star.svg
+zenfm.svg
 ```
 
 ## launcher
