@@ -315,11 +315,14 @@ settings_book_check.svg
 settings_book_cog_outline.svg
 settings_book_multiple_outline.svg
 settings_book_open_variant.svg
+settings_book_outline.svg
 settings_bookshelf.svg
 settings_brush.svg
 settings_calendar_month_outline.svg
 settings_chart_line.svg
 settings_check.svg
+settings_chevron_left.svg
+settings_chevron_right.svg
 settings_chip.svg
 settings_clipboard_play_outline.svg
 settings_clock_outline.svg
@@ -340,6 +343,8 @@ settings_drag_horizontal_variant.svg
 settings_draw_pen.svg
 settings_eye_off.svg
 settings_eye_outline.svg
+settings_file_cabinet.svg
+settings_file_document_outline.svg
 settings_file_outline.svg
 settings_file_tree.svg
 settings_flash.svg
@@ -359,8 +364,10 @@ settings_history.svg
 settings_home_variant.svg
 settings_image_filter_hdr.svg
 settings_image_multiple_outline.svg
+settings_incognito.svg
 settings_keyboard.svg
 settings_lightning_bolt.svg
+settings_link.svg
 settings_lock.svg
 settings_magnify.svg
 settings_memory.svg
@@ -378,6 +385,7 @@ settings_refresh.svg
 settings_restart.svg
 settings_restore.svg
 settings_selection.svg
+settings_send.svg
 settings_sleep.svg
 settings_sort_alphabetical_ascending.svg
 settings_sort_alphabetical_descending.svg
@@ -403,6 +411,7 @@ settings_weather_night.svg
 settings_weather_sunny.svg
 settings_widgets.svg
 settings_wifi.svg
+settings_wifi_off.svg
 view_carousel_outline.svg
 ```
 
