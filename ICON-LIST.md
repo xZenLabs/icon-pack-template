@@ -114,6 +114,8 @@ atom.svg
 avatar.svg
 blocks.svg
 book_closed.svg
+bookorbit.svg
+bookorbit.tab.svg
 bookshelf.svg
 bug.svg
 calculator.svg
